@@ -17,6 +17,7 @@ class ScoreBoard:
         # Font settings for scoring information
         self.text_color = (30, 30, 30)
         self.font = pygame.font.SysFont(None, 48)
+        self.instructions_font = pygame.font.SysFont(None, 18)
 
         # Prepare the initial score images.
         self.prep_score()
@@ -81,3 +82,32 @@ class ScoreBoard:
             ship.rect.x = 10 + ship_number * ship.rect.width
             ship.rect.y = 10
             self.ships.add(ship)
+
+    def prep_instructions(self):
+        """Turn the instructions into rendered images."""
+        ins1 = """Press [p] to play or stop the game."""
+        ins2 = "Press [Space] to shoot."
+        ins3 = "Press [q] to quit."
+        self.ins1_image = self.instructions_font.render(
+            ins1, True, self.text_color, self.settings.bgcolor
+        )
+        self.ins2_image = self.instructions_font.render(
+            ins2, True, self.text_color, self.settings.bgcolor
+        )
+        self.ins3_image = self.instructions_font.render(
+            ins3, True, self.text_color, self.settings.bgcolor
+        )
+
+        # Position the instructions on the bottom left on top of one another.
+        self.ins3_rect = self.ins3_image.get_rect()
+        self.ins2_rect = self.ins2_image.get_rect()
+        self.ins1_rect = self.ins1_image.get_rect()
+        self.ins3_rect.bottomleft = self.screen_rect.bottomleft
+        self.ins2_rect.bottomleft = self.ins3_rect.topleft
+        self.ins1_rect.bottomleft = self.ins2_rect.topleft
+
+    def show_instructions(self):
+        """Show the instructions on the screen."""
+        self.screen.blit(self.ins3_image, self.ins3_rect)
+        self.screen.blit(self.ins2_image, self.ins2_rect)
+        self.screen.blit(self.ins1_image, self.ins1_rect)

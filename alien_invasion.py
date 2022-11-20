@@ -28,6 +28,7 @@ class AlienInvasion:
         self.aliens = pygame.sprite.Group()
         self._create_fleet()
         self.play_button = Button(self, "Play")
+        self.sb.prep_instructions()
 
     def run_game(self):
         """Start the main loop for the game"""
@@ -236,6 +237,7 @@ class AlienInvasion:
         # Draw the play button if the game is inactive.
         if not self.stats.game_active:
             self.play_button.draw_button()
+            self.sb.show_instructions()
 
         pygame.display.flip()
 
